@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow mb-4">
+                <div class="card-body">
+                    <h1 class="h3 mb-4 text-center">Prediction Results</h1>
+                    <div class="text-center mb-4">
+                        <img src="{{ prediction.image.url }}" class="rounded img-fluid" style="max-width: 300px;" alt="Uploaded image">
+                    </div>
+                    <div class="text-center">
+                        {% if prediction.note %}
+                            <p class="card-text fw-bold text-secondary">Note: {{ prediction.note }}</p>
+                        {% endif %}
+                        <div class="mb-3">
+                            <p class="card-text fw-bold text-secondary">Prediction:</p>
+                            <span class="fw-bold {% if prediction.result == 'Malignant' %}text-danger{% else %}text-primary{% endif %}">
+                                {{ prediction.result }}
+                            </span>
+                        </div>
+                        <h5 class="fw-bold text-secondary">Confidence: {{ prediction.confidence }}%</h5>
+                    </div>
+                    <div class="d-flex justify-content-center mt-4">
+                        <button type="button" class="btn {% if prediction.result == 'Malignant' %}btn-danger{% else %}btn-primary{% endif %}" data-bs-toggle="modal" data-bs-target="#emailModal">
+                            Email Result as PDF
+                        </button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title" id="emailModalLabel">Email Result as PDF</h6>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="{% url 'email_result' prediction.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="recipientEmail" class="form-label">Recipient's Email</label>
+                                            <input type="email" class="form-control" id="recipientEmail" name="recipient_email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="message" class="form-label">Message (Optional)</label>
+                                            <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Send Email</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'predict' %}" class="btn btn-secondary">Back to Prediction Page</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+

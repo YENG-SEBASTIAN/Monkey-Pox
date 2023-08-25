@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Code Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .verification-code {
+            font-size: 40px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .verification-text {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .email-signature {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+        }
+
+        .brand-logo {
+            display: block;
+            margin: 0 auto;
+            width: 150px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        .footer {
+            font-size: 12px;
+            text-align: center;
+            color: #888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- will change the link of the src -->
+        <img class="brand-logo" src="https://yourwebsite.com/logo.png" alt="Logo">
+        <h1 class="verification-code">{{ verification_code }}</h1>
+        <p class="verification-text">Dear {{ user.email }},<br>Thank you for registering on our platform. Your activation code is:</p>
+        <h2 class="verification-code">{{ verification_code }}</h2>
+        <p class="verification-text">This code expires in 15 minutes.</p>
+        <div class="footer">
+            <p>Thank you,<br>Monkey Pox Detection Team</p>
+            <p>Address | City, Country | Phone: (123) 456-7890 | Email: contact@yourwebsite.com</p>
+        </div>
+    </div>
+</body>
+</html>
+

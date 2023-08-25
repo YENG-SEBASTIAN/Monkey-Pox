@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-sm-10 col-md-8 col-lg-6">
+      <div class="text-center mb-4">
+        <img class="mb-3" src="{% static 'icon.jpg' %}" alt="Monkey Pox Logo" width="120" height="80">
+        <h1 class="h3 mb-3 font-weight-bold">Sign In to Your Account</h1>
+      </div>
+      <div class="card p-4 shadow-sm rounded-lg">
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_username" class="form-label">Username</label>
+            <input type="text" name="username" id="id_username" class="form-control" required autofocus placeholder="Enter Email or Username">
+          </div>
+
+          <div class="form-group mt-3">
+            <label for="id_password" class="form-label">Password</label>
+            <div class="input-group">
+              <input type="password" name="password" id="id_password" class="form-control" required>
+              
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" onclick="showPassword()">
+              <label class="form-check-label" for="showPassword">Show Password</label>
+            </div>
+            <a href="{% url 'password_reset' %}" class="text-primary">Forgot password?</a>
+          </div>
+
+          <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Sign in</button>
+        </form>
+      </div>
+      <div class="text-center mt-3">
+        <p>No Account Yet? <a href="{% url 'signup' %}" class="text-primary">Sign Up Here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPassword() {
+    var x = document.getElementById("id_password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+</script>
+
+{% endblock %}
+
+
+

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center" style="width: 85%; margin: auto; border-bottom: 2px solid #0d6efd;">
+        <h1 class="mb-0 text-primary" style="font-family: 'Courier New', Courier, monospace; padding-bottom: 10px;">Your History {% if user.uploads.count > 0 %} -- <button class="btn btn-outline-primary mx-1" data-bs-toggle="modal" data-bs-target="#emailModal{{ file.pk }}">Email Your History</button></h1>{% endif %}
+    </div>
+        
+    <br>
+    <div class="d-flex flex-wrap justify-content-center">
+        {% for prediction in predictions %}
+        <div class="card m-2 shadow" style="max-width: 350px;">
+            <div class="row g-0">
+                <div class="col-12 text-center">
+                    <img src="{{ prediction.image.url }}" class="img-fluid rounded mx-auto d-block" alt="Uploaded image">
+                </div>
+                <div class="col-12">
+                    <div class="card-body text-center">
+                        {% if prediction.note %}
+                            <p class="card-text">Note: {{ prediction.note }}</p>
+                        {% endif %}
+                        <p class="card-text fw-bold text-secondary">Prediction: {% if prediction.result == 'Malignant' %}
+                            <span class="fw-bold text-danger">
+                                {{ prediction.result }}
+                            </span>
+                            {% else %}
+                            <span class="fw-bold text-primary">
+                                {{ prediction.result }}
+                            </span>
+                            {% endif %}</p>
+                        <p class="card-text">Confidence: {{ prediction.confidence }}%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No images have been uploaded yet.</p>
+        {% endfor %}
+    </div>
+</div>
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="emailModalLabel">Email Result as PDF</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'email_history' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="recipientEmail" class="form-label">Recipient's Email</label>
+                        <input type="email" class="form-control" id="recipientEmail" name="recipient_email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Send Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

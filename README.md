@@ -1,2 +1,1 @@
-# Monkey-Pox
-Monkey pox detection system
+# monkey-pox
